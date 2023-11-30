@@ -1,6 +1,8 @@
 <head th:insert ="frags/head :: head"/>
 <body >
-   <div class="container ">
+ <header th:insert="header :: header"/>
+ <main>
+	 <div class="container ">
 	  <h1 class="text-center"> Le mie Pizze</h1>
 	  <div class="card" style="width: 540px;height: 583px; background-color: darkblue; color: aliceblue;">
          <div class="row g-1 p-0" th:each = "pizza : ${pizze}">
@@ -21,6 +23,8 @@
             </div>
         </div>
      </div>
+ </main>
+   
     <!-- Bootstrap Bundle with Popper -->
          <script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
 </body>

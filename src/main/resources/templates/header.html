@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+   <header th:fragment="header()">
+	<nav class="navbar navbar-expand-lg bg-body-tertiary" style="color: red;">
+      <div class="container-fluid">
+         <img th:src="@{/img/Pizza-logo.png}" alt="logo" style="width: 100px;">
+         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+         </button>
+         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+               <button class="nav-link active" aria-current="page" th:insert = "fragment ::button('/pizze', 'Home')">Home</button>
+            </div>
+         </div>
+       </div>
+     </nav>
+   </header>
+ </body>
+<html>

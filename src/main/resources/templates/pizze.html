@@ -1,36 +1,26 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<!-- Bootstrap CSS -->
-<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}"/>
-
-<!-- CSS -->
-<link rel="stylesheet" th:href="@{/css/styles.css}">
-<title>Insert title here</title>
-</head>
+<head th:insert ="frags/head :: head"/>
 <body >
-	<div class="container ">
-		<h1 class="text-center"> Le mie Pizze</h1>
-		<div class="card" style="width: 540px;height: 583px; background-color: darkblue; color: aliceblue;">
-         <div class="row g-0" th:each = "pizza : ${pizze}">
+   <div class="container ">
+	  <h1 class="text-center"> Le mie Pizze</h1>
+	  <div class="card" style="width: 540px;height: 583px; background-color: darkblue; color: aliceblue;">
+         <div class="row g-1 p-0" th:each = "pizza : ${pizze}">
             <div class="col-md-4">
                 <img th:src="${pizza.foto}" class="img-fluid rounded-start" alt="...">
             </div>
             <div class="col-md-8 mb-4 mt-1">
                 <div class="card-body">
-                   <h5 class="card-title">[[${pizza.name}]]</h5>
+                   <h5 class="card-title">
+					  <a th:href="@{/pizze/{id}(id=${pizza.id})}" th:text="${pizza.name}">
+				         [[${pizza.name}]]			
+			          </a> 
+				   </h5>
                    <p class="card-text">[[${pizza.description}]]</p>
                    <p class="card-text">[[${pizza.price}]] euro</p>
-                </div>
+                 </div>
+             </div>
             </div>
-          </div>
-    </div>
-	
-	</div>
-	
+        </div>
+     </div>
     <!-- Bootstrap Bundle with Popper -->
          <script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
 </body>

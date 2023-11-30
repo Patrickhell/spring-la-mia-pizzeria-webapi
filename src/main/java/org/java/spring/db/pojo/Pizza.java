@@ -33,9 +33,16 @@ public class Pizza {
 		setDescription(description);
 		setFoto(foto);
 		setPrice(price);
-		
-		
 	}
+	
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -64,7 +71,7 @@ public class Pizza {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return getName() + getDescription() + getFoto() + getPrice();
+		return  getName() + getDescription() + getFoto() + getPrice();
 	}
 
 }

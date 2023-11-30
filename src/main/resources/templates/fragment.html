@@ -1,0 +1,10 @@
+<head th:insert ="frags/head :: head"/>
+<body>
+   <a
+      th:fragment="button(link, text)"
+      th:href="${link}"
+      th:text="${text}"
+      >
+   </a>
+</body>
+</html>

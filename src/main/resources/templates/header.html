@@ -18,6 +18,11 @@
                   style="--bs-btn-padding-y: .5rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: 1rem;">
                   Home
                </a>
+               <a  aria-current="page" class="mx-3"
+                  th:insert = "fragment ::button('/pizze/create', 'Crea la tua pizza')"
+                  style="--bs-btn-padding-y: .5rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: 1rem;">
+                  Crea la tua pizza
+               </a>
                <div class="mx-4 m-auto">
 				   <form class="d-flex" role="search">
                       <input class="form-control me-2" type="text" name="query" th:value="${query}" aria-label="Search">

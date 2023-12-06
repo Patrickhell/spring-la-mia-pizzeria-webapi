@@ -78,6 +78,47 @@ public class MainController {
 		return "redirect:/";
 	}
 	
+	@GetMapping("/pizze/edit/{id}")
+	public String editPizza(Model model, @PathVariable int id) {
+		
+		Pizza singlePizza = pizzaService.findById(id);
+		
+		model.addAttribute("pizza", singlePizza);
+		
+		return "/pizza-edit";
+	}
+	
+	@PostMapping("pizze/edit/{id}")
+	public String updatePizza(Model model, @Valid @ModelAttribute Pizza pizza, BindingResult bindingResult) {
+		
+        if(bindingResult.hasErrors()) {
+			
+			System.out.println(bindingResult);
+			model.addAttribute("pizza", pizza);
+			
+			return "/pizza-edit";
+		}
+		
+		pizzaService.save(pizza);
+		
+		return "redirect:/";
+		
+	}
+	
+	@PostMapping("/pizze/delete/{id}")
+	public String deletePizza( @PathVariable int id) {
+		
+		Pizza singlePizza = pizzaService.findById(id);
+		pizzaService.delete(singlePizza);
+		
+		System.out.println(singlePizza);
+		
+		return "redirect:/";
+		
+	}
+	
+	
+	
 	
 	
 	

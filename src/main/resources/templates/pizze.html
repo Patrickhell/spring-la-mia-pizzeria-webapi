@@ -4,6 +4,13 @@
  <main>
 	 <div class="container ">
 	  <h1 class="text-center"> Le mie Pizze</h1>
+	  <h2 th:if="${createdSpecialDiscount != null}"  class="alert alert-success" role="alert">
+		  Offerta: '[[${createdSpecialDiscount.title}]]', creata con successo!!
+	  </h2>
+	  <h2 th:if="${deletedPizza != null}"  class="alert alert-success" role="alert">
+		  Pizza: '[[${deletedPizza.name}]]',cancellata con successo!!
+	  </h2>
+	 
 	  <div class="card" style="width: auto;height: auto; background-color: rgb(0, 41, 77); color: aliceblue;">
          <div class="row g-1 p-1" th:each = "pizza : ${pizze}">
             <div class="col-md-4">
@@ -13,22 +20,20 @@
                 <div class="card-body d-flex">
 					
                    <div>
-					   <h5 class="card-title">
-					   <a th:href="@{/pizze/{id}(id=${pizza.id})}" th:text="${pizza.name}">
-				         [[${pizza.name}]]			
-			           </a> 
-				       </h5>
-                       <p class="card-text">[[${pizza.description}]]</p>
-                       <p class="card-text">[[${pizza.price}]] euro</p>
+					   <div class="card-title d-flex">
+					      <a class="align-items-center" th:href="@{/pizze/{id}(id=${pizza.id})}" th:text="${pizza.name} ">
+				            [[${pizza.name}]]			
+			              </a> 
+				       </div>
 				   </div>
 				   <div>
-                     <a aria-current="page" class="mx-3"
+                     <a aria-current="page" class="btn btn-outline-success"
                          th:href="@{/pizze/edit/{id} (id=${pizza.id})}"
-                         style="--bs-btn-padding-y: .5rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: 1rem;">
+                     >
                          Modifica
                      </a>
                      <form th:action="@{/pizze/delete/{id} (id=${pizza.id})}" method="POST" >
-						 <input type="submit" value="Cancella">
+						 <input class="btn btn-outline-success my-4" type="submit" value="Cancella">
 					 </form>
                    </div>
                 </div>

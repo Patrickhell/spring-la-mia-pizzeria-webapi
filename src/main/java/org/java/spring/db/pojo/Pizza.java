@@ -1,6 +1,8 @@
 package org.java.spring.db.pojo;
 
 
+import java.util.List;
+
 import org.hibernate.validator.constraints.Length;
 
 
@@ -9,6 +11,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotEmpty;
@@ -37,12 +40,17 @@ public class Pizza {
 	
 	@Column(length = 60)
 	@NotNull(message = "Il campo prezzo non può essere vuoto")
-	@DecimalMin(value = "0.0" , inclusive = false, message = "Il prezzo deve essere maggiore di 0 ")
-	@DecimalMax(value = "15.0" , inclusive = true, message = "Il prezzo non può essere maggiore di 15 euro ")
-	private double price;
+	@DecimalMin(value = "0.00" , inclusive = false, message = "Il prezzo deve essere maggiore di 0 ")
+	@DecimalMax(value = "15.00" , inclusive = true, message = "Il prezzo non può essere maggiore di 15 euro ")
+	private float  price;
+	
+	@OneToMany(mappedBy = "pizza")
+	private List<SpecialDiscount>specialDiscount;
+	
+	
 	
 	public Pizza() { }
-	public Pizza(String name,String description, String foto, double price) {
+	public Pizza(String name,String description, String foto, float price) {
 		
 		setName(name);
 		setDescription(description);
@@ -76,17 +84,24 @@ public class Pizza {
 	public void setFoto(String foto) {
 		this.foto = foto;
 	}
-	public double getPrice() {
+	public float getPrice() {
 		return price;
 	}
-	public void setPrice(double price) {
+	public void setPrice(float price) {
 		this.price = price;
+	}
+	
+	public List<SpecialDiscount> getSpecialDiscount() {
+		return specialDiscount;
+	}
+	public void setSpecialDiscount(List<SpecialDiscount> specialDiscount) {
+		this.specialDiscount = specialDiscount;
 	}
 	
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return  getName() + getDescription() + getFoto() + getPrice();
+		return  getName() + getDescription() + getFoto() + String.format("%.02f", getPrice()) + "euro";
 	}
 
 }

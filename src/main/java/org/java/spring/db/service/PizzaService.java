@@ -42,9 +42,9 @@ public class PizzaService {
 		return pizzaRepository.findById(id).get();
 	}
     
-    public void save(Pizza pizza) {
+    public Pizza save(Pizza pizza) {
 		
-    	pizzaRepository.save(pizza);
+    	return pizzaRepository.save(pizza);
 	}
     
     public void delete(Pizza pizza) {

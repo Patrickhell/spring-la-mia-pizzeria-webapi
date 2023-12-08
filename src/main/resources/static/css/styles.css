@@ -17,6 +17,11 @@ div.singleCard{
 }
 
 a{
-	text-decoration:none;	
+	text-decoration:none;
+	color: cadetblue;
 	
+}
+
+ul{
+	list-style: none;
 }

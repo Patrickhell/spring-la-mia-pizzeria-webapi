@@ -5,6 +5,7 @@ import java.util.List;
 
 
 import org.java.spring.db.pojo.Pizza;
+import org.java.spring.db.pojo.SpecialDiscount;
 import org.java.spring.db.service.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.java.spring.db.service.SpecialDiscountService;
+import org.java.spring.dto.SpecialDiscountDto;
 
 import jakarta.validation.Valid;
 
@@ -23,6 +27,11 @@ public class MainController {
 	
 	@Autowired
 	private PizzaService pizzaService;
+	
+	@Autowired
+	private SpecialDiscountService specialDiscountService;
+	
+	
 	
 	@GetMapping
 	public String getPizze(Model model, @RequestParam(required = false) String query) {
@@ -44,6 +53,9 @@ public class MainController {
 		
 		Pizza singlePizza = pizzaService.findById(id);
 		model.addAttribute("singlePizza", singlePizza);
+		
+		List<SpecialDiscount> discount = specialDiscountService.findDiscountsByPizzaId(id);
+		model.addAttribute("discount", discount);
 		
 		return "singlePizza";
 		
@@ -106,18 +118,49 @@ public class MainController {
 	}
 	
 	@PostMapping("/pizze/delete/{id}")
-	public String deletePizza( @PathVariable int id) {
+	public String deletePizza( @PathVariable int id, RedirectAttributes redirectAttributes) {
 		
 		Pizza singlePizza = pizzaService.findById(id);
 		pizzaService.delete(singlePizza);
 		
-		System.out.println(singlePizza);
+		redirectAttributes.addFlashAttribute("deletedPizza", singlePizza);
+		
 		
 		return "redirect:/";
 		
 	}
 	
+	@GetMapping("pizze/discount/{pizza_id}")
+	public String getDiscountPizzaCreateForm(Model model, @PathVariable("pizza_id") int id) {
+		
+	    
+		Pizza pizza = pizzaService.findById(id);
+		model.addAttribute("pizza", pizza);
+		model.addAttribute("specialDiscount", new SpecialDiscount());
+	    
+		return "discount-form";
+		
+	}
 	
+	@PostMapping("pizze/discount/{pizza_id}")
+	public String storeSpecialDiscount(Model model, @Valid @ModelAttribute SpecialDiscount specialDiscount, BindingResult bindingResult,@PathVariable("pizza_id") int id, RedirectAttributes redirectAttributes) {
+		
+		
+        if (bindingResult.hasErrors()) {
+			
+			return "discount-form"; 
+		}
+
+        Pizza pizza = pizzaService.findById(id);
+        
+        specialDiscount.setPizza(pizza);
+        
+        redirectAttributes.addFlashAttribute("createdSpecialDiscount", specialDiscount);
+
+		specialDiscountService.save(specialDiscount);
+		
+		return "redirect:/";
+	}
 	
 	
 	

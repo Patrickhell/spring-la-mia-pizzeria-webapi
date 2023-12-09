@@ -7,8 +7,10 @@
      </h2>
 	 <div class="text-center">
 		 <ul>
-            <li th:each="specialDiscount: ${discount}">
-               <span th:text="${specialDiscount.title + ' - ' + specialDiscount.startDate + ' - ' + specialDiscount.endDate}"></span>
+            <li  th:each="specialDiscount: ${discount}">
+               <p class="badge text-bg-info"  
+                  th:text="${specialDiscount.title + ' - ' + specialDiscount.startDate + ' - ' + specialDiscount.endDate}">
+               </p>
             </li>
          </ul>
          <a aria-current="page" class="m-auto btn btn-outline-success my-4"
@@ -28,8 +30,8 @@
                  <div class="col-md-7 mt-3">
                     <div class="card-body">
                        <h5 class="card-title" th:text ="${'Nome: '+ singlePizza.name}"></h5>
-                       <p class="card-text" th:text ="${'INGREDIENTI: ' + singlePizza.description}"></p>
-                       <p class="card-text" th:text ="${ 'PREZZO: ' + singlePizza.price +' ' + 'euro'}"></p>
+                       <p class="card-text" th:text ="${'Ingredienti: ' + singlePizza.description}"></p>
+                       <p class="card-text" th:text ="${ 'Prezzo: ' + singlePizza.price +' ' + 'euro'}"></p>
                     </div>
                   </div>
                 </div>

@@ -11,5 +11,4 @@ import org.java.spring.db.pojo.SpecialDiscount;
 public interface SpecialDiscountRepo  extends JpaRepository<SpecialDiscount, Integer> {
 	
 	List<SpecialDiscount> findByPizzaId(int pizzaId);
-
 }

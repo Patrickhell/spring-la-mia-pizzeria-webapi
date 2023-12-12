@@ -35,7 +35,6 @@ public class SpecialDiscountService {
 	public List<SpecialDiscount> findDiscountsByPizzaId(int pizzaId) {
 	    return specialDiscountRepo.findByPizzaId(pizzaId);
 	}
-	    
 	
 	public void delete(SpecialDiscount specialDiscount) {
 		

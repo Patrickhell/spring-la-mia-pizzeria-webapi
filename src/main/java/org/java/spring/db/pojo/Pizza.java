@@ -1,6 +1,7 @@
 package org.java.spring.db.pojo;
 
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.hibernate.validator.constraints.Length;
@@ -11,6 +12,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
@@ -47,15 +51,25 @@ public class Pizza {
 	@OneToMany(mappedBy = "pizza")
 	private List<SpecialDiscount>specialDiscount;
 	
+	@ManyToMany()
+	@JoinTable(
+			name="pizza_ingredients",
+	        joinColumns = @JoinColumn(name = "pizza_id"),
+	        inverseJoinColumns = @JoinColumn(name = "ingrdient_id")
+			)
+			
 	
+	private List<Ingredient>ingredients;
+
 	
 	public Pizza() { }
-	public Pizza(String name,String description, String foto, float price) {
+	public Pizza(String name,String description, String foto, float price, Ingredient...ingredients) {
 		
 		setName(name);
 		setDescription(description);
 		setFoto(foto);
 		setPrice(price);
+		setIngredients(ingredients);
 	}
 	
 	
@@ -97,7 +111,28 @@ public class Pizza {
 	public void setSpecialDiscount(List<SpecialDiscount> specialDiscount) {
 		this.specialDiscount = specialDiscount;
 	}
+	public void deleteIngredient(Ingredient ingredient) {
+		getIngredients().remove(ingredient);
+	}
 	
+	
+	
+	
+	public List<Ingredient> getIngredients() {
+		return ingredients;
+	}
+	public void setIngredients(List<Ingredient> ingredients) {
+		this.ingredients = ingredients;
+	}
+	
+	public void setIngredients(Ingredient... ingredients) {
+		
+		setIngredients(Arrays.asList(ingredients));
+	}
+	
+	public void ClearIngredients() {
+		getIngredients().clear();
+	}
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub

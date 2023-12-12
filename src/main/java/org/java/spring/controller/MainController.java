@@ -3,9 +3,10 @@ package org.java.spring.controller;
 
 import java.util.List;
 
-
+import org.java.spring.db.pojo.Ingredient;
 import org.java.spring.db.pojo.Pizza;
 import org.java.spring.db.pojo.SpecialDiscount;
+import org.java.spring.db.service.IngredientService;
 import org.java.spring.db.service.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,6 +32,11 @@ public class MainController {
 	@Autowired
 	private SpecialDiscountService specialDiscountService;
 	
+	@Autowired
+	private IngredientService ingredientService;
+	
+	
+	
 	
 	
 	@GetMapping
@@ -43,6 +49,7 @@ public class MainController {
 		model.addAttribute("pizze" , pizze);
 		model.addAttribute("query", query == null ? "" : query);
 		
+		
 		return "pizze";
 	}
 	
@@ -51,11 +58,13 @@ public class MainController {
 	@GetMapping("/pizze/{id}")
 	public String getPizzaById(Model model, @PathVariable int id) {
 		
-		Pizza singlePizza = pizzaService.findById(id);
-		model.addAttribute("singlePizza", singlePizza);
-		
 		List<SpecialDiscount> discount = specialDiscountService.findDiscountsByPizzaId(id);
 		model.addAttribute("discount", discount);
+		
+		Pizza singlePizza = pizzaService.findById(id);
+		singlePizza.getIngredients();
+		model.addAttribute("singlePizza", singlePizza);
+		
 		
 		return "singlePizza";
 		
@@ -65,7 +74,10 @@ public class MainController {
 	@GetMapping("/pizze/create")
 	public String create(Model model) {
 		
+		List<Ingredient> ingredients = ingredientService.findAll();
+		
 		model.addAttribute("pizza", new Pizza());
+		model.addAttribute("ingredients", ingredients);
 		
 		return"/pizza-form";
 	}
@@ -73,10 +85,6 @@ public class MainController {
 	@PostMapping("/pizze/create")
 	public String pizzaStore(Model model, @Valid @ModelAttribute Pizza pizza, BindingResult bindingResult) {
 		
-
-		System.out.println("Book:\n" + pizza);
-		System.out.println("\n---------------\n");
-		System.out.println("Error:\n" + bindingResult);
 		
 		if(bindingResult.hasErrors()) {
 			
@@ -93,9 +101,13 @@ public class MainController {
 	@GetMapping("/pizze/edit/{id}")
 	public String editPizza(Model model, @PathVariable int id) {
 		
+		List<Ingredient> ingredients = ingredientService.findAll();		
 		Pizza singlePizza = pizzaService.findById(id);
 		
 		model.addAttribute("pizza", singlePizza);
+		model.addAttribute("ingredients", ingredients);
+		
+		
 		
 		return "/pizza-edit";
 	}
@@ -121,7 +133,15 @@ public class MainController {
 	public String deletePizza( @PathVariable int id, RedirectAttributes redirectAttributes) {
 		
 		Pizza singlePizza = pizzaService.findById(id);
+		
+		singlePizza.ClearIngredients();
+		pizzaService.save(singlePizza);
+		
+		List<SpecialDiscount> specialDiscount  = singlePizza.getSpecialDiscount();
+		specialDiscount.forEach(specialDiscountService::delete);
+		
 		pizzaService.delete(singlePizza);
+		
 		
 		redirectAttributes.addFlashAttribute("deletedPizza", singlePizza);
 		
@@ -143,7 +163,9 @@ public class MainController {
 	}
 	
 	@PostMapping("pizze/discount/{pizza_id}")
-	public String storeSpecialDiscount(Model model, @Valid @ModelAttribute SpecialDiscount specialDiscount, BindingResult bindingResult,@PathVariable("pizza_id") int id, RedirectAttributes redirectAttributes) {
+	public String storeSpecialDiscount(Model model, @Valid @ModelAttribute SpecialDiscount specialDiscount, 
+			                           BindingResult bindingResult,@PathVariable("pizza_id") int id, RedirectAttributes redirectAttributes) 
+	{
 		
 		
         if (bindingResult.hasErrors()) {
@@ -156,10 +178,10 @@ public class MainController {
         specialDiscount.setPizza(pizza);
         
         redirectAttributes.addFlashAttribute("createdSpecialDiscount", specialDiscount);
-
+        
 		specialDiscountService.save(specialDiscount);
 		
-		return "redirect:/";
+		return "redirect:/pizze/" + id;
 	}
 	
 	

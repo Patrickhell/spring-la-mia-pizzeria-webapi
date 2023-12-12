@@ -1,0 +1,34 @@
+<head th:insert ="frags/head :: head"/>
+<body >
+ <header th:insert="header :: header"/>
+ <main>
+	 <div class="container ">
+	    <h1 class="text-center"> I Nostri Ingredients</h1>
+	    <p th:if="${deletedIngredient != null}"  class="alert alert-success " role="alert" style="width: 400px;">
+		  Ingrediente: '[[${deletedIngredient.name}]]', cancellato con successo!!
+	    </p>
+	    <div class="d-flex">
+			<div th:each = "ingredient : ${ingredients}">
+			   <ul class="list-group">
+                  <li class="list-group-item my-3" th:text ="${ingredient.name}">
+					 
+				  </li>
+				  <form th:action="@{/ingredient/delete/{id} (id=${ingredient.id})}" method="POST" >
+						 <input class="btn btn-outline-success my-4" type="submit" value="Cancella">
+				  </form>
+               </ul>
+	        </div>
+		</div>
+		<a  aria-current="page" class="mx-3"
+            th:insert = "fragment ::button('/ingredient/create', 'Aggiungi un ingrediente')"
+            style="--bs-btn-padding-y: .5rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: 1rem;"
+        >
+        </a>
+	  
+     </div>
+  </main>
+   
+    <!-- Bootstrap Bundle with Popper -->
+         <script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

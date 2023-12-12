@@ -2,8 +2,9 @@
 <body >
   <header th:insert="header :: header"/>
    <main class="container" th:object="${singlePizza}">
-	   <p th:if="${createdSpecialDiscount != null}"  class="alert alert-success " role="alert" style="width: 400px;">
+	   <p th:if="${createdSpecialDiscount != null}"  class="alert alert-success alert-dismissible fade show" role="alert" style="width: 400px;">
 		  Offerta: '[[${createdSpecialDiscount.title}]]', creata con successo!!
+		    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 	   </p>
 	   <div>
 		   <h2 class="text-center">
@@ -19,8 +20,9 @@
                     </p>
                  </li>
               </ul>
-              <a aria-current="page" class="m-auto btn btn-outline-success my-4"
+              <a aria-current="page" class="btn btn-outline-success my-4"
 		         th:href = "@{/pizze/discount/{id} (id = *{id})}"
+		         sec:authorize="hasAuthority('ADMIN')"
                  style="--bs-btn-padding-y: .5rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: 1rem;"
               >            
                  Aggiungi un'offerta

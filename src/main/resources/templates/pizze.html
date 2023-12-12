@@ -4,14 +4,13 @@
  <main>
 	 <div class="container ">
 	  <h1 class="text-center"> Le mie Pizze</h1>
-	  <h2 th:if="${createdSpecialDiscount != null}"  class="alert alert-success" role="alert">
-		  Offerta: '[[${createdSpecialDiscount.title}]]', creata con successo!!
-	  </h2>
-	  <h2 th:if="${deletedPizza != null}"  class="alert alert-success" role="alert">
+	  User: <span sec:authentication="name"></span>
+	  <h2 th:if="${deletedPizza != null}"  class="alert alert-success alert-dismissible fade show" role="alert" >
 		  Pizza: '[[${deletedPizza.name}]]',cancellata con successo!!
+		    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 	  </h2>
 	 
-	  <div class="card" style="width: auto;height: auto; background-color: rgb(0, 41, 77); color: aliceblue;">
+	  <div class="card" style="width: auto;height: auto; background-color: rgb(0, 41, 77); color: aliceblue;" th:if="${pizze.size} > 0">
          <div class="row g-1 p-1" th:each = "pizza : ${pizze}">
             <div class="col-md-4">
                 <img th:src="${pizza.foto}" class="img-fluid rounded-start" alt="...">
@@ -25,14 +24,17 @@
 				            [[${pizza.name}]]			
 			              </a> 
 				       </div>
-				   </div>
+				   </div>  
 				   <div>
+				   
                      <a aria-current="page" class="btn btn-outline-success"
                          th:href="@{/pizze/edit/{id} (id=${pizza.id})}"
+                         sec:authorize="hasAuthority('ADMIN')"
                      >
                          Modifica
                      </a>
-                     <form th:action="@{/pizze/delete/{id} (id=${pizza.id})}" method="POST" >
+                     <form sec:authorize="hasAuthority('ADMIN')"
+                         th:action="@{/pizze/delete/{id} (id=${pizza.id})}" method="POST" >
 						 <input class="btn btn-outline-success my-4" type="submit" value="Cancella">
 					 </form>
                    </div>

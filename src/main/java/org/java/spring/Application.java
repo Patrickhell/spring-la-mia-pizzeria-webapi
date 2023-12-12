@@ -4,6 +4,11 @@ package org.java.spring;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.java.spring.auth.conf.AuthConf;
+import org.java.spring.auth.db.pojo.Role;
+import org.java.spring.auth.db.pojo.User;
+import org.java.spring.auth.db.service.RoleService;
+import org.java.spring.auth.db.service.UserService;
 import org.java.spring.db.pojo.Ingredient;
 import org.java.spring.db.pojo.Pizza;
 import org.java.spring.db.pojo.SpecialDiscount;
@@ -27,6 +32,12 @@ public class Application implements CommandLineRunner {
 	
 	@Autowired
 	private IngredientService ingredientService;
+	
+	@Autowired
+	private RoleService roleService;
+	
+	@Autowired
+	private UserService userService;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
@@ -75,6 +86,23 @@ public class Application implements CommandLineRunner {
 		specialDiscountService.save(new SpecialDiscount(LocalDate.now(),LocalDate.parse("2024-04-20"), "Happy Hour Deal" , pizze.get(3)));
 		specialDiscountService.save(new SpecialDiscount(LocalDate.now(),LocalDate.parse("2024-06-20"), "Holiday Discount" , pizze.get(2)));
 		specialDiscountService.save(new SpecialDiscount(LocalDate.now(),LocalDate.parse("2024-07-15"), "Family Feast Discount" , pizze.get(3)));
+		
+		
+		Role roleUser = new Role("USER");
+		Role roleAdmin = new Role("ADMIN");
+		
+		roleService.save(roleUser);
+		roleService.save(roleAdmin);
+		
+		String pwsUser = AuthConf.passwordEncoder().encode("pws");
+		String pwsAdmin = AuthConf.passwordEncoder().encode("pws");
+		
+		
+		User patrickUser = new User("patrickUser", pwsUser , roleUser);
+		User patrickAdmin= new User("patrickAdmin", pwsAdmin, roleAdmin);
+		
+		userService.save(patrickUser);
+		userService.save(patrickAdmin);
 		
 		
 		

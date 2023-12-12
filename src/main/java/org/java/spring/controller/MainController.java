@@ -9,6 +9,7 @@ import org.java.spring.db.pojo.SpecialDiscount;
 import org.java.spring.db.service.IngredientService;
 import org.java.spring.db.service.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.java.spring.db.service.SpecialDiscountService;
-import org.java.spring.dto.SpecialDiscountDto;
 
 import jakarta.validation.Valid;
 
@@ -40,7 +40,7 @@ public class MainController {
 	
 	
 	@GetMapping
-	public String getPizze(Model model, @RequestParam(required = false) String query) {
+	public String getPizze(Model model, @RequestParam(required = false) String query, Authentication auth) {
 		
 		List<Pizza> pizze = query == null 
 				                          ? pizzaService.findAll()
@@ -48,6 +48,11 @@ public class MainController {
 		
 		model.addAttribute("pizze" , pizze);
 		model.addAttribute("query", query == null ? "" : query);
+		
+		System.out.println(
+				auth == null
+				? "No logged in"
+				: "User: " + auth.getName());
 		
 		
 		return "pizze";

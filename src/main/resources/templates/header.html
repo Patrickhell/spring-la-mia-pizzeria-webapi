@@ -13,15 +13,25 @@
          </button>
          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-               <a  aria-current="page" 
+			   <a  aria-current="page" class="mx-3"
+                   th:insert = "fragment ::button('/logout', 'Logout')"
+                   style="--bs-btn-padding-y: .5rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: 1rem;">
+               </a>
+               <a  aria-current="page" class="mx-3"
                   th:insert = "fragment ::button('/', 'Home')"
                   style="--bs-btn-padding-y: .5rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: 1rem;">
                   Home
                </a>
                <a  aria-current="page" class="mx-3"
                   th:insert = "fragment ::button('/pizze/create', 'Crea la tua pizza')"
+                  sec:authorize="hasAuthority('ADMIN')"
                   style="--bs-btn-padding-y: .5rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: 1rem;">
                   Crea la tua pizza
+               </a>
+               <a  aria-current="page" class="mx-3"
+                  th:insert = "fragment ::button('/IngredientList', 'Ingredienti')"
+                  sec:authorize="hasAuthority('ADMIN')"
+                  style="--bs-btn-padding-y: .5rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: 1rem;">
                </a>
                <div class="mx-4 m-auto">
 				   <form class="d-flex" role="search">

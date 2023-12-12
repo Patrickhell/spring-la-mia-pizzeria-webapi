@@ -4,8 +4,9 @@
  <main>
 	 <div class="container ">
 	    <h1 class="text-center"> I Nostri Ingredients</h1>
-	    <p th:if="${deletedIngredient != null}"  class="alert alert-success " role="alert" style="width: 400px;">
-		  Ingrediente: '[[${deletedIngredient.name}]]', cancellato con successo!!
+	    <p th:if="${deletedIngredient != null}"  class="alert alert-success alert-dismissible fade show " role="alert" style="width: 400px;">
+		    Ingrediente: '[[${deletedIngredient.name}]]', cancellato con successo!!
+		    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 	    </p>
 	    <div class="d-flex">
 			<div th:each = "ingredient : ${ingredients}">
@@ -13,17 +14,19 @@
                   <li class="list-group-item my-3" th:text ="${ingredient.name}">
 					 
 				  </li>
-				  <form th:action="@{/ingredient/delete/{id} (id=${ingredient.id})}" method="POST" >
+				  <form sec:authorize="hasAuthority('ADMIN')"
+				        th:action="@{/ingredient/delete/{id} (id=${ingredient.id})}" method="POST" >
 						 <input class="btn btn-outline-success my-4" type="submit" value="Cancella">
 				  </form>
                </ul>
 	        </div>
 		</div>
-		<a  aria-current="page" class="mx-3"
+		<button  class="mx-3 btn btn-outline-success"
             th:insert = "fragment ::button('/ingredient/create', 'Aggiungi un ingrediente')"
+            sec:authorize="hasAuthority('ADMIN')"
             style="--bs-btn-padding-y: .5rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: 1rem;"
         >
-        </a>
+        </button>
 	  
      </div>
   </main>

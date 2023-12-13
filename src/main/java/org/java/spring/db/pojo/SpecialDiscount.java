@@ -7,6 +7,8 @@ import java.time.format.DateTimeFormatter;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -38,6 +40,7 @@ public class SpecialDiscount {
 	
 	@ManyToOne
 	@JoinColumn(name = "pizza_id")
+	@JsonIgnore
 	private Pizza pizza;
 	
 	public SpecialDiscount() { }

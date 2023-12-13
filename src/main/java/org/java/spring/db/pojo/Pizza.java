@@ -6,7 +6,9 @@ import java.util.List;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -48,17 +50,10 @@ public class Pizza {
 	@DecimalMax(value = "15.00" , inclusive = true, message = "Il prezzo non può essere maggiore di 15 euro ")
 	private float  price;
 	
-	@OneToMany(mappedBy = "pizza")
+	@OneToMany(mappedBy = "pizza", cascade = CascadeType.REMOVE)
 	private List<SpecialDiscount>specialDiscount;
 	
 	@ManyToMany()
-	@JoinTable(
-			name="pizza_ingredients",
-	        joinColumns = @JoinColumn(name = "pizza_id"),
-	        inverseJoinColumns = @JoinColumn(name = "ingrdient_id")
-			)
-			
-	
 	private List<Ingredient>ingredients;
 
 	
@@ -121,10 +116,12 @@ public class Pizza {
 	public List<Ingredient> getIngredients() {
 		return ingredients;
 	}
+	
 	public void setIngredients(List<Ingredient> ingredients) {
 		this.ingredients = ingredients;
 	}
 	
+	@JsonProperty
 	public void setIngredients(Ingredient... ingredients) {
 		
 		setIngredients(Arrays.asList(ingredients));

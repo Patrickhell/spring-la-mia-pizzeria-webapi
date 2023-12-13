@@ -19,13 +19,15 @@ public class AuthConf {
 		
 		
 		http.csrf().disable()
+		.cors().disable()
 		.authorizeHttpRequests()
 		.requestMatchers("/**").permitAll()
         .requestMatchers("/login").permitAll()
+        .requestMatchers("/api/**").permitAll()
         .requestMatchers("/").hasAnyAuthority("USER", "ADMIN")
-        .requestMatchers(new RegexRequestMatcher("/pizze/[0-10]+", null)).hasAnyAuthority("USER", "ADMIN")
-        .requestMatchers("/pizze/create/**").hasAuthority("ADMIN")
-        .requestMatchers("/pizze/edit/**").hasAuthority("ADMIN")
+        .requestMatchers(new RegexRequestMatcher("/pizze/[0-10]+", null)).hasAnyAuthority("ADMIN")
+        .requestMatchers("/*/create/**").hasAuthority("ADMIN")
+        .requestMatchers("/*/edit/**").hasAuthority("ADMIN")
         .and().formLogin()
         .and().logout();
 		

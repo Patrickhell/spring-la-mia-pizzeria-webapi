@@ -17,10 +17,10 @@
            <input type="number" class="form-control" id="price" v-model="newPizza.price">
         </div>
         <div>
-            <button type="submit">
+            <button type="submit" class="btn btn-primary">
               Create
             </button>
-            <button type="button" class="btn btn-primary" @click="$emit('back')">
+            <button type="button" class="btn btn-primary mx-3" @click="$emit('back')">
                Indietro
             </button>
         </div>

@@ -20,6 +20,7 @@
      v-else
      :pizza= "pizzaActive"
      @close-single-pizza="closeSinglePizza"
+     @delete-pizza="deleteSinglePizza"
     />
 
   </div>
@@ -62,7 +63,9 @@ const createdPizza = () => {
   create.value = true;
 }
 
-
+const deleteSinglePizza = () => {
+  pizzaActive.value = null;
+}
 
 
 onMounted(getPizze);

@@ -73,13 +73,13 @@ public class PizzaRestController {
 	}
 	
 	@DeleteMapping("{id}")	
-	public ResponseEntity<Pizza> UpdatePizza(@PathVariable int id){
+	public ResponseEntity<Pizza> deletePizza(@PathVariable int id){
 		
 		Pizza pizza = pizzaService.findById(id);
 		
 		pizzaService.delete(pizza);
 		
-		return new ResponseEntity<>(pizza, HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 

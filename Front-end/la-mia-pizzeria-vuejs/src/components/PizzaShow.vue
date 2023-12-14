@@ -1,9 +1,15 @@
 <template>
   <div>
     <div>
-        <p>
-            Single pizza : {{ singlePizza.name }}
-        </p>
+        <div>
+            <p>
+              Single pizza : {{ singlePizza.name }}
+            </p>
+            <span class="link"
+                @click="$emit('closeSinglePizza')">
+             Close
+            </span>
+        </div>
         <p>Price: {{ singlePizza.price }}</p>
         <span>{{ singlePizza.description }}</span>
         <br>
@@ -26,16 +32,17 @@ const props = defineProps ({
         required:true
     }
 });
+
 const singlePizza = ref(props.pizza);
 
-const showPizza = async (id) => {
-    const data = await axios.get(
-        `http://localhost:8080/api/pizze/${id}`)
-        singlePizza.value = data;
-};
+const emits = defineEmits( ["closeSinglePizza"])
 
-onMounted(showPizza);
+
 </script>
 
-<style>
+<style scoped>
+.link {
+    cursor: pointer;
+    text-decoration: underline;
+}
 </style>

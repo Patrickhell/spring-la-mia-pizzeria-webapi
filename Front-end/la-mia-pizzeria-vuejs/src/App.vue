@@ -8,6 +8,7 @@
     <pizza-show
      v-else
      :pizza= "pizzaActive"
+     @close-single-pizza="closeSinglePizza"
     />
 
   </div>
@@ -25,11 +26,6 @@ import PizzaShow from './components/PizzaShow.vue';
 const pizze = ref(null);
 const pizzaActive = ref(null);
 
-const getPizze = async () => {
-  const data = await axios.get("http://localhost:8080/api/pizze");
-  pizze.value = data.data;
-};
-
 const showSinglePizza = (id) => {
   pizze.value.forEach((pizza) => {
 
@@ -39,6 +35,17 @@ const showSinglePizza = (id) => {
     
   });
 };
+
+const closeSinglePizza = () => {
+    pizzaActive.value = null;
+  }
+
+const getPizze = async () => {
+  const data = await axios.get("http://localhost:8080/api/pizze");
+  pizze.value = data.data;
+};
+
+
 onMounted(getPizze);
 </script>
 

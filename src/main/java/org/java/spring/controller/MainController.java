@@ -52,7 +52,7 @@ public class MainController {
 		System.out.println(
 				auth == null
 				? "No logged in"
-				: "User: " + auth.getName());
+				: "User: " +  auth.getName());
 		
 		
 		return "pizze";

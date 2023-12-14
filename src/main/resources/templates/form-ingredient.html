@@ -2,12 +2,12 @@
 <body >
   <header th:insert="header :: header"/>
   <main style="width: 500px;">
-	 <h1>:</h1>
+	  <h2>Crea il tuo ingrediente</h2>
 	 <form th:object = "${ingredient}" method="POST">
 		 <div class="mb-3">
 			 <div th:replace="frags/errorsField :: errorDiv('name')" />
              <label for="name" class="form-label"></label>
-             <input type="text" class="form-control" id="name"  th:field="*{name}">
+             <input type="text" class="form-control" id="name"  th:field="*{name}" placeholder="Nome ingrediente">
          </div>
          <button class="btn btn-primary" type="submit" value="STORE">Crea</button>
 	 </form>

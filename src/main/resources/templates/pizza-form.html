@@ -36,8 +36,8 @@
 		 <div th:each="ingredient: ${ingredients}"
 		      th:object="${ingredient}"
 		 >
-		     <input type="checkbox" th:id="${'ingredient-' + ingredient.id}" th:value="*{id}" th:field="${pizza.ingredients}">
-		     <label th:for="${'ingredient-' + ingredient.id}">
+		     <input type="checkbox" th:id="${'ingredient-' + id}" th:value="*{id}" th:field="${pizza.ingredients}">
+		     <label th:for="*{'ingredient-' + id}">
 				[[*{name}]]
 			 </label>
 			 

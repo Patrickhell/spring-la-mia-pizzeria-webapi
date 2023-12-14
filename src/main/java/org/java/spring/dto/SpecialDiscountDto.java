@@ -1,15 +1,16 @@
 package org.java.spring.dto;
 
+import java.time.LocalDate;
 
 public class SpecialDiscountDto {
 
 	private int pizza_id;
 	private String title;
-	private String startDate;
-	private String endDate;
+	private LocalDate startDate;
+	private LocalDate endDate;
 	
 	
-	
+
 	public int getPizza_id() {
 		return pizza_id;
 	}
@@ -24,16 +25,16 @@ public class SpecialDiscountDto {
 	}
 	
 	
-	public String getStartDate() {
+	public LocalDate getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(String startDate) {
+	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
-	public String getEndDate() {
+	public LocalDate getEndDate() {
 		return endDate;
 	}
-	public void setEndDate(String endDate) {
+	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
 	}
 	@Override

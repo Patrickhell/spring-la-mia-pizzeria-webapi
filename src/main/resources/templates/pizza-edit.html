@@ -2,7 +2,7 @@
 <body >
   <header th:insert="header :: header"/>
   <main style="width: 500px;">
-	 <h1>Crea:</h1>
+	 <h1>Modifica:</h1>
 	 <form th:object = "${pizza}" method="POST">
 		 <div class="mb-3">
 			 <div th:replace="frags/errorsField :: errorDiv('foto')" />
@@ -28,6 +28,19 @@
             <label for="price" class="form-label"></label>
             <input type="text" class="form-control" id="price" placeholder="Inserisci il prezzo" th:field="*{price}">
          </div>
+         
+         <h2>
+			 Ingredienti
+		 </h2>
+		 <div th:each="ingredient: ${ingredients}"
+		      th:object="${ingredient}"
+		 >
+		     <input type="checkbox" th:id="${'ingredient-' + id}" th:value="*{id}" th:field="${pizza.ingredients}">
+		     <label th:for="*{'ingredient-' + id}">
+				[[*{name}]]
+			 </label>
+			 
+		 </div>
          <div >
             <button class="btn btn-primary" type="submit" value="EDIT">Aggiorna</button>
          </div>

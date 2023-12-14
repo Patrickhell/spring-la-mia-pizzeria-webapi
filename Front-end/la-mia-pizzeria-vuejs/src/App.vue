@@ -1,5 +1,16 @@
 <template>
-  <div>
+
+  <button v-if="!creatingPizza && pizzaActive == null"
+    @click="creatingPizza = true"
+  >
+    New pizza
+  </button>
+  <pizza-form
+   v-if="creatingPizza"
+   @back = "creatingPizza = false"
+   @created="createdPizza"
+  />
+  <div v-else>
     <pizze-index
       v-if="pizzaActive == null"
         :pizze="pizze"
@@ -22,9 +33,11 @@ import axios from 'axios';
 
 import PizzeIndex from './components/PizzeIndex.vue';
 import PizzaShow from './components/PizzaShow.vue';
+import PizzaForm from './components/PizzaForm.vue';
 
 const pizze = ref(null);
 const pizzaActive = ref(null);
+const creatingPizza = ref(false);
 
 const showSinglePizza = (id) => {
   pizze.value.forEach((pizza) => {
@@ -44,6 +57,12 @@ const getPizze = async () => {
   const data = await axios.get("http://localhost:8080/api/pizze");
   pizze.value = data.data;
 };
+
+const createdPizza = () => {
+  create.value = true;
+}
+
+
 
 
 onMounted(getPizze);

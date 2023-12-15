@@ -1,4 +1,6 @@
 <template>
+    
+
     <ul>
         <li  v-for="pizza in pizze" :key="pizza.id" @click="$emit('openPizza', pizza.id)" >
             <p class="list-elem">
@@ -10,14 +12,18 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
+import { defineProps} from 'vue';
+
+const emits = defineEmits(["openPizza"]);
 
 const props = defineProps({
     pizze: {
-        type: Array,
+        type: Object,
         required: true
     }
 });
+
+
 
 </script>
 

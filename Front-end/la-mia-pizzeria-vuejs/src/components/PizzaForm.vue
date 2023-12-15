@@ -18,7 +18,7 @@
         </div>
         <div>
             <button type="submit" class="btn btn-primary">
-              Create
+                {{ props.oldPizza == null ? "Create" : "Update" }}
             </button>
             <button type="button" class="btn btn-primary mx-3" @click="$emit('back')">
                Indietro
@@ -36,6 +36,13 @@ import { defineEmits, ref } from 'vue';
 import axios from 'axios';
 
 
+const props = defineProps({
+    oldPizza: {
+        type: Object,
+        required: false,
+        default: null
+    }
+});
 
 const newPizza = ref({
      name:"",
@@ -44,17 +51,41 @@ const newPizza = ref({
      price:""
  });
 
+ 
+
+if (props.oldPizza != null) {
+
+newPizza.value = {
+    name: props.oldPizza.name,
+    description: props.oldPizza.description,
+    foto: props.oldPizza.foto,
+    price: props.oldPizza.price
+};
+
+}
+
 const emits = defineEmits(["back", "created"]);
 
 const submit = async () => {
-    const data = await axios.post("http://localhost:8080/api/pizze", newPizza.value);
+    if (props.oldPizza == null) {
+        const data = await axios.post("http://localhost:8080/api/pizze", newPizza.value);
+    
 
-    console.log("data" , data);
-    emits("created");
+        console.log("data" , data);
+        emits("created");
+        return;
+    }
 
-    return;
+    const data = await axios.put(
+        `http://localhost:8080/api/pizze/${props.oldPizza.id}`, 
+        newPizza.value
+    );
+
+    console.log("data", data);
+    emits("created", newPizza.value);
 
 }
+
 
 
 </script>

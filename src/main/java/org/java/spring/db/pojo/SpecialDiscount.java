@@ -31,7 +31,6 @@ public class SpecialDiscount {
 	private LocalDate startDate;
 	
 	@Column(nullable = false)
-	@Future (message="La data deve essere futura")
 	private LocalDate endDate;
 	
 	@Column(nullable = false)
